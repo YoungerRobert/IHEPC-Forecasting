@@ -36,16 +36,44 @@ python prepare_data.py
 
 预处理采用：同日内不超过180分钟的短缺口线性插值；较长缺口使用过去7天同一分钟的中位数；删除首尾两个结构性残缺日；保留每日原始观测覆盖率用于训练和评价掩码。
 
-## 环境
+## 环境部署
 
-推荐Python 3.11、PyTorch 2.4及CUDA 12.1。可使用：
+推荐使用 Python 3.11。GPU 不是必需的，CPU 也可以运行烟雾测试和小规模实验；如果要复现五个随机种子的正式实验，建议使用支持 CUDA 的 PyTorch 环境。
+
+### 方式一：使用 conda
 
 ```powershell
 conda env create -f environment.yml
 conda activate ihepc-forecast
 ```
 
-也可以在现有环境中安装 `requirements.txt`。GPU不是必需的，但正式五轮实验建议使用CUDA。
+如果本机已有合适的 conda 环境，也可以直接在该环境中安装依赖：
+
+```powershell
+pip install -r requirements.txt
+```
+
+### 方式二：使用 venv / pip
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+### 检查环境
+
+安装完成后，可运行下面命令确认核心包可用：
+
+```powershell
+python -c "import torch, pandas, numpy, sklearn, matplotlib; print('ok')"
+```
+
+如果需要查看 PyTorch 是否识别 GPU：
+
+```powershell
+python -c "import torch; print(torch.cuda.is_available())"
+```
 
 ## 文件说明
 
